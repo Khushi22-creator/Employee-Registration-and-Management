@@ -1,0 +1,129 @@
+form {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #1976d2;
+  }
+  
+  .form-section {
+    margin-bottom: 2rem;
+  }
+  
+  .form-section h3 {
+    margin-bottom: 1rem;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+  }
+  
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.2rem;
+  }
+  
+  label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #333;
+  }
+  
+  .required-asterisk {
+    color: red;
+    margin-left: 2px;
+  }
+  
+  input, select {
+    padding: 0.6rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s;
+  }
+  
+  input:focus, select:focus {
+    border-color: #1976d2;
+    outline: none;
+  }
+  
+  button[type="submit"] {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .error small {
+    color: red;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+  }
+  
+  .success-message {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #e6ffed;
+    border: 1px solid #28a745;
+    color: #155724;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 6px;
+  }
+  
+  input.ng-invalid.ng-touched,
+  select.ng-invalid.ng-touched,
+  .invalid-field {
+    border-color: red;
+  }
+  
+  .file-hint {
+    color: #555;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+  }
+
+  input[draggable="true"] {
+    cursor: grab;
+    border: 2px dashed #4CAF50;
+  }
+
+  .new-form-btn {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  
+
+
+  
+  
+  
+  

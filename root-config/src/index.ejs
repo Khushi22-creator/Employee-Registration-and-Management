@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Single SPA Root Config</title>
+  </head>
+  <body>
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "@root-config-org/root-config": "//localhost:9000/root-config-org-root-config.js",
+          "@employees-org/final-app2": "//localhost:4200/main.js",
+          "@single-spa/welcome": "https://cdn.jsdelivr.net/npm/single-spa-welcome/dist/single-spa-welcome.min.js"
+        }
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/import-map-overrides/dist/import-map-overrides.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/single-spa/lib/system/single-spa.min.js"></script>
+
+    <script>
+      System.import("@root-config-org/root-config");
+    </script>
+  </body>
+</html>

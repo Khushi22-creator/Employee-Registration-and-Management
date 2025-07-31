@@ -1,0 +1,244 @@
+
+<!-- top bar with buttons -->
+<!-- Top Buttons with Alert Count -->
+<div class="top-buttons">
+  <div class="alert-button-wrapper">
+    <button (click)="toggleAlerts()">Alerts</button>
+    <span *ngIf="getAlertCount() > 0" class="popup-count">{{ getAlertCount() }}</span>
+  </div>
+
+  <button (click)="toggleNotifications()">Notifications</button>
+  <button (click)="logout()">Logout</button>
+</div>
+  
+  <!-- panel for the alert and notification buttons -->
+  <!-- side panel -->
+<div class="side-panel" [class.open]="showAlerts || showNotifications">
+  <div class="panel-header">
+    <span class="close-btn" (click)="closePanel()">×</span>
+
+    <!-- Toggle Buttons Inside Panel -->
+    <div class="side-panel-buttons">
+      <button (click)="toggleAlerts()" [class.active]="showAlerts">Alerts</button>
+      <button (click)="toggleNotifications()" [class.active]="showNotifications">Notifications</button>
+      <button (click)="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="panel-content">
+    <!-- Alerts Panel -->
+<div *ngIf="showAlerts">
+  <h4>Alerts</h4>
+  <div *ngFor="let module of alertJson">
+    <strong>{{ module.Modulename }}</strong>
+
+    <!-- Today -->
+    <div *ngIf="hasTodayScreens(module.Screens); else noTodayAlerts">
+      <h5>Today</h5>
+      <ul>
+        <ng-container *ngFor="let screen of module.Screens">
+          <li *ngIf="isToday(screen.Date)">
+            <strong>Date & Time:</strong>
+            {{ screen.Date | date: 'fullDate' }} {{ screen.Date | date: 'shortTime' }}
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <ng-template #noTodayAlerts>
+      <h5>Today</h5>
+      <p style="font-style: italic;">No alerts today</p>
+    </ng-template>
+
+    <!-- Yesterday -->
+    <div *ngIf="hasYesterdayScreens(module.Screens); else noYesterdayAlerts">
+      <h5>Yesterday</h5>
+      <ul>
+        <ng-container *ngFor="let screen of module.Screens">
+          <li *ngIf="isYesterday(screen.Date)">
+            <strong>Date & Time:</strong>
+            {{ screen.Date | date: 'fullDate' }} {{ screen.Date | date: 'shortTime' }}
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <ng-template #noYesterdayAlerts>
+      <h5>Yesterday</h5>
+      <p style="font-style: italic;">No alerts yesterday</p>
+    </ng-template>
+  </div>
+</div>
+    
+    <!-- Notifications Panel -->
+<div *ngIf="showNotifications">
+  <h4>Notifications</h4>
+  <div *ngFor="let module of notificationJson">
+    <strong>{{ module.Modulename }}</strong>
+
+    <!-- Today -->
+    <div *ngIf="hasTodayScreens(module.Screens); else noTodayNotifications">
+      <h5>Today</h5>
+      <ul>
+        <ng-container *ngFor="let screen of module.Screens">
+          <li *ngIf="isToday(screen.Date)">
+            <strong>Date & Time:</strong>
+            {{ screen.Date | date: 'fullDate' }} {{ screen.Date | date: 'shortTime' }}<br />
+            <strong>Screen:</strong> {{ screen.Screen }}<br />
+            <strong>Message:</strong> {{ screen.Message }}<br />
+            <strong>Request ID:</strong> {{ screen.requestID }}
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <ng-template #noTodayNotifications>
+      <h5>Today</h5>
+      <p style="font-style: italic;">No notifications today</p>
+    </ng-template>
+
+    <!-- Yesterday -->
+    <div *ngIf="hasYesterdayScreens(module.Screens); else noYesterdayNotifications">
+      <h5>Yesterday</h5>
+      <ul>
+        <ng-container *ngFor="let screen of module.Screens">
+          <li *ngIf="isYesterday(screen.Date)">
+            <strong>Date & Time:</strong>
+            {{ screen.Date | date: 'fullDate' }} {{ screen.Date | date: 'shortTime' }}<br />
+            <strong>Screen:</strong> {{ screen.Screen }}<br />
+            <strong>Message:</strong> {{ screen.Message }}<br />
+            <strong>Request ID:</strong> {{ screen.requestID }}
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <ng-template #noYesterdayNotifications>
+      <h5>Yesterday</h5>
+      <p style="font-style: italic;">No notifications yesterday</p>
+    </ng-template>
+  </div>
+</div>
+</div>
+</div>
+  
+  
+  <!-- View Selector Header -->
+<div class="view-selector">
+  <label for="viewSelect">Select List:</label>
+  <select id="viewSelect" [(ngModel)]="viewType" (change)="changeView(viewType)">
+    <option value="employees">Employee List</option>
+    <option value="users">User Registration List</option>
+  </select>
+</div>
+
+  <!-- employee list table -->
+<div *ngIf="viewType === 'employees'">
+  <h2>Employee List</h2>
+  <table class="employee-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Email</th>
+        <th>DOB</th>
+        <th>Gender</th>
+        <th>Country</th>
+        <th>Join Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tr>
+      <th><input type="text" [(ngModel)]="employeeSearch.name" (input)="filterEmployees()" placeholder="Search by name" /></th>
+      <th><input type="text" [(ngModel)]="employeeSearch.role" (input)="filterEmployees()" placeholder="Search by role" /></th>
+      <th><input type="text" [(ngModel)]="employeeSearch.email" (input)="filterEmployees()" placeholder="Search by email" /></th>
+      <th><input type="text" [(ngModel)]="employeeSearch.dob" (input)="filterEmployees()" placeholder="Search by DOB" /></th>
+      <th><input type="text" [(ngModel)]="employeeSearch.gender" (input)="filterEmployees()" placeholder="Search by gender" /></th>
+      <th><input type="text" [(ngModel)]="employeeSearch.country" (input)="filterEmployees()" placeholder="Search by country" /></th>
+      <th><input type="text" [(ngModel)]="employeeSearch.joinDate" (input)="filterEmployees()" placeholder="Search by join date" /></th>
+      <th><input type="text" [(ngModel)]="employeeSearch.status" (input)="filterEmployees()" placeholder="Search by status" /></th>
+      <th></th>
+    </tr>    
+    <tbody>
+      <tr *ngFor="let emp of filteredEmployees; let i = index">
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.role }}</td>
+        <td>{{ emp.email }}</td>
+        <td>{{ emp.dob }}</td>
+        <td>{{ emp.gender }}</td>
+        <td>{{ emp.country }}</td>
+        <td>{{ emp.joinDate }}</td>
+        <td>
+          <span [class.active]="emp.status === 'Active'" [class.inactive]="emp.status === 'Not Active'">
+            {{ emp.status }}
+          </span>
+        </td>
+        <td>
+          <button class="remove-btn" (click)="removeEmployee(i + (currentPage - 1) * pageSize)">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  <!-- user registration list table -->
+  <div *ngIf="viewType === 'users'">
+    <h2>User Registration List</h2>
+    <table class="employee-table">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Is Active</th>
+          <th>ID Proof</th>
+          <th>Address Proof</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tr>
+        <th><input type="text" [(ngModel)]="userSearch.firstName" placeholder="Search by first name" /></th>
+        <th><input type="text" [(ngModel)]="userSearch.lastName" placeholder="Search by last name" /></th>
+        <th><input type="text" [(ngModel)]="userSearch.email" placeholder="Search by email" /></th>
+        <th><input type="text" [(ngModel)]="userSearch.phone" placeholder="Search by phone" /></th>
+        <th><input type="text" [(ngModel)]="userSearch.role" placeholder="Search by role" /></th>
+        <th><input type="text" [(ngModel)]="userSearch.isActive" placeholder="Search by status" /></th>
+        <th><input type="text" [(ngModel)]="userSearch.idProof" placeholder="Search by ID proof" /></th>
+        <th><input type="text" [(ngModel)]="userSearch.addressProof" placeholder="Search by address proof" /></th>
+        <th></th>
+      </tr>      
+      <tbody>
+        <tr *ngFor="let user of filteredUsers; let i = index">
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.isActive ? 'Yes' : 'No' }}</td>
+          <td>{{ user.idProof?.name || 'N/A' }}</td>
+          <td>{{ user.addressProof?.name || 'N/A' }}</td>
+          <td>
+            <button class="remove-btn" (click)="removeUserRegistration(i)">Remove</button>
+            <button class="edit-btn" (click)="editUser(user)">Edit</button>
+            <button class="view-btn" (click)="viewUser(user)">View</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+  
+    <button
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      (click)="changePage(i + 1)"
+      [class.active-page]="currentPage === i + 1">
+      {{ i + 1 }}
+    </button>
+  
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+  
+  
+  

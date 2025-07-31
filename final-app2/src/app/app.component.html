@@ -1,0 +1,10 @@
+<h2>Employee App</h2>
+<nav *ngIf="authService.isLoggedIn()">
+  <a routerLink="/home" routerLinkActive="active">Home</a> |
+  <a routerLink="/about" routerLinkActive="active">About</a> |
+  <a routerLink="/form2" routerLinkActive="active">Employee Form</a> |
+  <a routerLink="/form" routerLinkActive="active">User Registration Form</a> |
+  <a (click)="logout()">Logout</a>
+</nav>
+<hr />
+<router-outlet></router-outlet>

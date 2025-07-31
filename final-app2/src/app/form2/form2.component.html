@@ -1,0 +1,68 @@
+<h2>Employee Form</h2>
+<form class="form" (ngSubmit)="addEmployee()" #employeeForm="ngForm">
+  <div class="field-group">
+    <input
+      type="text"
+      [(ngModel)]="employee.name"
+      name="name"
+      placeholder="Full Name *"
+      required 
+      (input) = "checkDuplicates()"/>
+      <div *ngIf="duplicateName" style="color: red; font-size: 0.9rem;">
+        This name already exists.
+      </div>
+    <input
+      type="text"
+      [(ngModel)]="employee.role"
+      name="role"
+      placeholder="Role *"
+      required />
+  </div>
+
+  <div class="field-group">
+    <label for="dob">Date of Birth:</label>
+    <input type="date" [(ngModel)]="employee.dob" name="dob" id="dob" />
+    <input
+      type="email"
+      [(ngModel)]="employee.email"
+      name="email"
+      placeholder="Email *"
+      required 
+      (input)="checkDuplicates()" />
+      <div *ngIf="duplicateEmail" style="color: red; font-size: 0.9rem;">
+        This email is already in use.
+      </div>
+  </div>
+
+  <div class="gender-group">
+    Gender:
+    <label>
+      <input type="radio" name="gender" value="Male" [(ngModel)]="employee.gender" /> Male
+    </label>
+    <label>
+      <input type="radio" name="gender" value="Female" [(ngModel)]="employee.gender" /> Female
+    </label>
+    <label>
+      <input type="radio" name="gender" value="Prefer not to say" [(ngModel)]="employee.gender" /> Prefer not to say
+    </label>
+  </div>
+
+  <div class="field-group">
+    <select [(ngModel)]="employee.country" name="country">
+      <option value="" disabled selected>Select Country</option>
+      <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+    </select>
+    <label for="joinDate">Join Date: </label>
+    <input type="date" [(ngModel)]="employee.joinDate" name="joinDate" id="joinDate" />
+  </div>
+
+  <div class="field-group">
+    <label for="status">Status *</label>
+    <select [(ngModel)]="employee.status" name="status" id="status">
+      <option value="Active">Active</option>
+      <option value="Not Active">Not Active</option>
+    </select>
+  </div>
+
+  <button type="submit" class="add-btn" [disabled]="!employeeForm.form.valid">Add Employee</button>
+</form>

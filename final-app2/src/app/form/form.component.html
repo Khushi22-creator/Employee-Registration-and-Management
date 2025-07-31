@@ -1,0 +1,75 @@
+<h2>User Registration Form</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div *ngFor="let section of formSections" class="form-section">
+    <h3>{{ section.section }}</h3>
+
+    <div *ngFor="let field of section.fields" class="form-field">
+      <label [for]="field.name">
+        {{ field.label }}
+        <span *ngIf="field.required" class="required-asterisk">*</span>
+      </label>
+
+      <!-- text, email, tel -->
+      <input *ngIf="['text', 'email', 'tel'].includes(field.type)"
+      [type]="field.type"
+      [formControlName]="field.name"
+      [id]="field.name"
+      [draggable]="!isViewMode && (field.name === 'firstName' || field.name === 'lastName')"
+      (dragstart)="onDragStart($event, field.name)"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event, field.name)"
+      [ngClass]="{'invalid-field': form.get(field.name)?.invalid && form.get(field.name)?.touched}" />
+
+
+
+      <!-- dropdown -->
+      <select *ngIf="field.type === 'dropdown'"
+              [formControlName]="field.name"
+              [id]="field.name"
+              [ngClass]="{'invalid-field': form.get(field.name)?.invalid && form.get(field.name)?.touched}">
+        <option value="">Select</option>
+        <option *ngFor="let opt of field.options" [value]="opt">{{ opt }}</option>
+      </select>
+
+      <!-- checkbox -->
+      <input *ngIf="field.type === 'checkbox'"
+             type="checkbox"
+             [formControlName]="field.name"
+             [id]="field.name" />
+
+      <!-- file upload -->
+      <div *ngIf="field.type === 'file'" class="file-upload">
+        <input type="file"
+               [id]="field.name"
+               (change)="onFileChange($event, field.name)"
+               accept=".pdf" />
+
+        <small *ngIf="field.name === 'idProof'" class="file-hint">
+          Only PDF files will be accepted. (No Word, Excel, etc.)
+        </small>
+      </div>
+
+      <!-- error messages -->
+      <div class="error" *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched">
+        <small *ngIf="form.get(field.name)?.errors?.['required']">This field is required.</small>
+        <small *ngIf="form.get(field.name)?.errors?.['email']">Invalid email format.</small>
+        <small *ngIf="field.name === 'firstName' && form.get(field.name)?.errors?.['maxlength']">
+          First Name cannot exceed 10 characters.
+        </small>
+        <small *ngIf="form.get(field.name)?.errors?.['invalidFileType']">
+          Only PDF files are allowed.
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="form.invalid || !form.dirty || isViewMode">Submit</button>
+
+  <div class="success-message" *ngIf="formSuccess">
+    Form submitted successfully!
+  </div>
+
+  <button type="button" class="new-form-btn" (click)="startNewForm()">New Form</button>
+
+</form>
