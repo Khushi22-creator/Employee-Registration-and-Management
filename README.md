@@ -1,6 +1,7 @@
 A Single Page Application (SPA) built with Angular 14 for managing employees and users. I supports with registration,login authentication, alert notifications, pagination, and role-based management with a modern style.
 
 Features:
+
 Secure Login – Requires authentication to access all components/pages (Home, About, Employee Form, User Registration).
 
 Forgot Password Flow – Sends a message that an email has been sent to the user if the username is entered, otherwise prompts for username entry.
